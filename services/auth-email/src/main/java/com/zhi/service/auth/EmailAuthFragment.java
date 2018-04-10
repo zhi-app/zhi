@@ -28,8 +28,6 @@ import com.zhi.common.app.BaseFragment;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-
 public class EmailAuthFragment extends BaseFragment {
     private static final String TAG = "EmailAuthFragment";
 
@@ -49,12 +47,5 @@ public class EmailAuthFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Creating
-        {
-            Observable.create(emitter -> {
-
-            });
-        }
-
     }
 }
