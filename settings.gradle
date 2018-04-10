@@ -1,0 +1,57 @@
+include ':common'
+project(':common').projectDir = file('commons/common')
+
+include ':common-multidex'
+project(':common-multidex').projectDir = file('commons/multidex')
+
+include ':common-rx'
+project(':common-rx').projectDir = file('commons/rx')
+
+include ':common-okhttp'
+project(':common-okhttp').projectDir = file('commons/okhttp')
+
+include ':common-glide'
+project(':common-glide').projectDir = file('commons/glide')
+
+include ':service-neo'
+project(':service-neo').projectDir = file('services/neo')
+
+
+include ':service-auth-common'
+project(':service-auth-common').projectDir = file('services/auth-common')
+
+include ':service-auth-email'
+project(':service-auth-email').projectDir = file('services/auth-email')
+
+include ':service-auth-google'
+project(':service-auth-google').projectDir = file('services/auth-google')
+
+include ':service-auth-facebook'
+project(':service-auth-facebook').projectDir = file('services/auth-facebook')
+
+include ':service-auth-twitter'
+project(':service-auth-twitter').projectDir = file('services/auth-twitter')
+
+include ':service-auth-github'
+project(':service-auth-github').projectDir = file('services/auth-github')
+
+include ':service-auth'
+project(':service-auth').projectDir = file('services/auth')
+
+include ':service-messaging'
+project(':service-messaging').projectDir = file('services/messaging')
+
+include ':module-splash'
+project(':module-splash').projectDir = file('modules/splash')
+
+include ':module-camera'
+project(':module-camera').projectDir = file('modules/camera')
+
+include ':module-share'
+project(':module-share').projectDir = file('modules/share')
+
+include ':module-profile'
+project(':module-profile').projectDir = file('modules/profile')
+
+include ':app-xlap'
+project(':app-xlap').projectDir = file('apps/xlap')

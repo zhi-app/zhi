@@ -1,0 +1,21 @@
+<resources>
+
+    <style name="XLapTheme" parent="AppTheme" />
+
+    <style name="XLapTheme.SplashScreen" parent="AppTheme.SplashScreen">
+        <item name="splashLogo_xhdpi_144">@drawable/logo_144</item>
+        <item name="splashLogo_xhdpi_192">@drawable/logo_192</item>
+        <item name="splashTag_xhdpi_132x44">@drawable/splash_tag_132x44</item>
+        <item name="splashTag_xhdpi_184x60">@drawable/splash_tag_184x60</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

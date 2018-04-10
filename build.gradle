@@ -1,0 +1,136 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url 'https://maven.fabric.io/public'
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha09'
+        classpath 'io.fabric.tools:gradle:1.25.1'
+        classpath 'com.google.gms:google-services:3.2.1'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+    configurations.all {
+        resolutionStrategy {
+            force "org.hamcrest:hamcrest-core:${rootProject.ext.hamcrestVersion}"
+            force "com.android.support:design:${rootProject.ext.supportVersion}"
+            force "com.android.support:transition:${rootProject.ext.supportVersion}"
+            force "com.android.support:recyclerview-v7:${rootProject.ext.supportVersion}"
+            force "com.android.support.constraint:constraint-layout:${rootProject.ext.constraintVersion}"
+            force "com.android.support:support-annotations:${rootProject.ext.supportVersion}"
+            force "com.android.support:support-v4:${rootProject.ext.supportVersion}"
+            force "com.android.support:support-compat:${rootProject.ext.supportVersion}"
+            force "com.android.support:support-media-compat:${rootProject.ext.supportVersion}"
+            force "com.android.support:support-core-utils:${rootProject.ext.supportVersion}"
+            force "com.android.support:support-core-ui:${rootProject.ext.supportVersion}"
+            force "com.android.support:support-fragment:${rootProject.ext.supportVersion}"
+            force "com.android.support:support-vector-drawable:${rootProject.ext.supportVersion}"
+            force "com.android.support:animated-vector-drawable:${rootProject.ext.supportVersion}"
+            force "com.android.support:appcompat-v7:${rootProject.ext.supportVersion}"
+
+            force "android.arch.paging:runtime:${rootProject.ext.archPagingVersion}"
+
+            force "android.arch.lifecycle:common:${rootProject.ext.archLifecycleVersion}"
+            force "android.arch.lifecycle:common-java8:${rootProject.ext.archLifecycleVersion}"
+            force "android.arch.lifecycle:extensions:${rootProject.ext.archLifecycleVersion}"
+            force "android.arch.lifecycle:runtime:${rootProject.ext.archLifecycleVersion}"
+            force "android.arch.lifecycle:compiler:${rootProject.ext.archLifecycleVersion}"
+            force "android.arch.lifecycle:viewmodel:${rootProject.ext.archLifecycleVersion}"
+            force "android.arch.lifecycle:livedata:${rootProject.ext.archLifecycleVersion}"
+            force "android.arch.lifecycle:compiler:${rootProject.ext.archLifecycleVersion}"
+
+            force "android.arch.persistence.room:runtime:${rootProject.ext.archLifecycleVersion}"
+            force "android.arch.persistence.room:rxjava2:${rootProject.ext.archLifecycleVersion}"
+            force "android.arch.persistence.room:testing:${rootProject.ext.archLifecycleVersion}"
+            force "android.arch.persistence.room:compiler:${rootProject.ext.archLifecycleVersion}"
+
+            force "com.squareup.okhttp3:okhttp:${rootProject.ext.okhttpVersion}"
+
+            force "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxJavaVersion}"
+            force "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxAndroidVersion}"
+
+            force "junit:junit:${rootProject.ext.junitVersion}"
+            force "org.hamcrest:hamcrest-core:${rootProject.ext.hamcrestVersion}"
+            force "org.hamcrest:hamcrest-library:${rootProject.ext.hamcrestVersion}"
+            force "org.hamcrest:hamcrest-integration:${rootProject.ext.hamcrestVersion}"
+            force "com.android.support.test:runner:${rootProject.ext.testRunnerVersion}"
+            force "com.android.support.test.espresso:espresso-core:${rootProject.ext.testEspressoVersion}"
+
+            force "com.facebook.android:facebook-login:${facebookSdkVersion}"
+            force "pub.devrel:easypermissions:${rootProject.ext.easyPermissionVersion}"
+
+            force "com.google.guava:guava:${rootProject.ext.guavaVersion}-android"
+            force "com.google.guava:guava:${rootProject.ext.guavaVersion}-jre"
+
+            force "com.google.firebase:firebase-core:${rootProject.ext.firebaseVersion}"
+            force "com.firebase:firebase-jobdispatcher:${rootProject.ext.firebaseJobDispatcherVersion}"
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    compileSdkVersion = 27
+    minSdkVersion = 19
+    targetSdkVersion = 27
+    supportVersion = '27.1.0'
+    buildToolsVersion = '27.0.3'
+    junitVersion = '4.12'
+    hamcrestVersion = '1.3'
+    testRunnerVersion = '1.0.1'
+    testEspressoVersion = '3.0.1'
+    defaultPublishConfig = 'debug'
+    multidexVersion = '1.0.2'
+
+    javaxAnnotationVersion = '10.0-b28'
+    daggerVersion = '2.15'
+    guavaVersion = '24.1'
+    glideVersion = '4.4.0'
+    okhttpVersion = '3.9.1'
+
+    archLifecycleVersion = '1.1.0'
+    archRoomVersion = '1.1.0-alpha3'
+    archPagingVersion = '1.0.0-alpha6'
+    constraintVersion = '1.0.2'
+
+    rxAndroidVersion = '2.0.1'
+    rxJavaVersion = '2.1.8'
+    rxBindingVersion = '2.1.1'
+    easyPermissionVersion = '1.1.3'
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    facebookSdkVersion = '4.31.0'
+    twitterSdkVersion = '3.1.1'
+
+    gmsVersion = '12.0.0'
+    firebaseVersion = gmsVersion
+
+    firebaseJobDispatcherVersion = '0.8.5'
+
+    dimensionMinApi = 'minApi'
+    dimensionChannel = 'channel'
+
+    def keystoreProperties = new Properties();
+    keystoreProperties.load(new FileInputStream(rootProject.file("extras/keystores/zhiapp.properties")))
+    keyAlias = keystoreProperties['keyAlias']
+    keyPassword = keystoreProperties['keyPassword']
+    storeFile = file(keystoreProperties['storeFile'])
+    storePassword = keystoreProperties['storePassword']
+
+}

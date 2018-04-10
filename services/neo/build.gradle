@@ -1,0 +1,74 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        defaultPublishConfig rootProject.ext.defaultPublishConfig
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            postprocessing {
+                removeUnusedCode false
+                removeUnusedResources false
+                obfuscate false
+                optimizeCode false
+                proguardFile 'proguard-rules.pro'
+            }
+        }
+    }
+
+    flavorDimensions rootProject.ext.dimensionChannel
+    productFlavors {
+        bugly {
+            dimension rootProject.ext.dimensionChannel
+        }
+        fabric {
+            dimension rootProject.ext.dimensionChannel
+        }
+        googlePlay {
+            dimension rootProject.ext.dimensionChannel
+        }
+    }
+
+    sourceSets {
+        googlePlay {
+            java.srcDirs += ['src/firebase/java', 'src/facebook/java', 'src/bugly/java']
+            res.srcDirs += ['src/firebase/res', 'src/facebook/res', 'src/bugly/res']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.sourceCompatibility
+        targetCompatibility rootProject.ext.targetCompatibility
+    }
+}
+
+dependencies {
+    annotationProcessor "com.google.dagger:dagger-android-processor:${rootProject.ext.daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+
+    implementation project(':common')
+
+    def buglyCrashReportVersion = '2.6.6'
+    def buglyNativeCrashReportVersion = '3.3.1'
+    buglyImplementation "com.tencent.bugly:crashreport:${buglyCrashReportVersion}"
+    buglyImplementation "com.tencent.bugly:nativecrashreport:${buglyNativeCrashReportVersion}"
+
+    googlePlayImplementation "com.tencent.bugly:crashreport:${buglyCrashReportVersion}"
+    googlePlayImplementation "com.tencent.bugly:nativecrashreport:${buglyNativeCrashReportVersion}"
+
+    def crashlyticsVersion = '2.7.1@aar'
+    def crashlyticsAnswerVersion = '1.4.1@aar'
+//    googlePlayImplementation "com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}"
+//    googlePlayImplementation "com.crashlytics.sdk.android:answers:${crashlyticsAnswerVersion}"
+    def firebaseVersion = '11.8.0'
+    googlePlayImplementation "com.google.firebase:firebase-core:${firebaseVersion}"
+}

@@ -1,0 +1,96 @@
+apply plugin: 'com.android.application'
+//apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        versionCode 1
+        versionName "1.0.0.1"
+        applicationId "com.zhi.app.xlap"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+        missingDimensionStrategy rootProject.ext.dimensionChannel, 'googlePlay'
+        resValue("string", "file_provider_authorities", applicationId + ".files")
+    }
+
+    buildTypes {
+        release {
+            postprocessing {
+                removeUnusedCode false
+                removeUnusedResources false
+                obfuscate false
+                optimizeCode false
+                proguardFile 'proguard-rules.pro'
+            }
+        }
+    }
+
+    flavorDimensions rootProject.ext.dimensionMinApi, rootProject.ext.dimensionChannel
+    productFlavors {
+        minApi19 {
+            dimension rootProject.ext.dimensionMinApi
+            minSdkVersion 19
+            versionCode 19 * 1000 + android.defaultConfig.versionCode
+            versionNameSuffix '-minApi19'
+        }
+        minApi21 {
+            dimension rootProject.ext.dimensionMinApi
+            minSdkVersion 21
+            versionCode 21 * 1000 + android.defaultConfig.versionCode
+            versionNameSuffix '-minApi21'
+            matchingFallbacks = ['minApi19']
+        }
+        minApi23 {
+            dimension rootProject.ext.dimensionMinApi
+            minSdkVersion 23
+            versionCode 23 * 1000 + android.defaultConfig.versionCode
+            versionNameSuffix '-minApi23'
+            missingDimensionStrategy 'minApi', 'minApi21', 'minApi19'
+        }
+        googlePlay {
+            dimension rootProject.ext.dimensionChannel
+            versionCode rootProject.ext.minSdkVersion * 1000 + android.defaultConfig.versionCode
+            versionNameSuffix '-channelGooglePlay'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${project.name}-${variant.versionName}.apk"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.sourceCompatibility
+        targetCompatibility rootProject.ext.targetCompatibility
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+}
+
+dependencies {
+    implementation "com.android.support.constraint:constraint-layout:${rootProject.ext.constraintVersion}"
+
+    annotationProcessor "com.google.dagger:dagger-android-processor:${rootProject.ext.daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+
+    implementation project(':common')
+    implementation project(':common-multidex')
+    implementation project(':common-rx')
+    implementation project(':common-glide')
+    implementation project(':common-okhttp')
+    implementation project(':service-auth')
+    implementation project(':service-neo')
+    implementation project(':module-splash')
+    implementation project(':module-camera')
+    implementation project(':module-profile')
+}
+
+apply plugin: 'com.google.gms.google-services'

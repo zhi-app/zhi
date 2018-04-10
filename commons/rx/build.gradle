@@ -1,0 +1,39 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        versionCode 1
+        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        defaultPublishConfig rootProject.ext.defaultPublishConfig
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            postprocessing {
+                removeUnusedCode false
+                removeUnusedResources false
+                obfuscate false
+                optimizeCode false
+                proguardFile 'proguard-rules.pro'
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility rootProject.ext.sourceCompatibility
+        targetCompatibility rootProject.ext.targetCompatibility
+    }
+}
+
+dependencies {
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportVersion}"
+    api "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxJavaVersion}"
+    api "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxAndroidVersion}"
+    api "com.jakewharton.rxbinding2:rxbinding:${rootProject.ext.rxBindingVersion}"
+}

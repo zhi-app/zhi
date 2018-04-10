@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "363545986493",
+    "firebase_url": "https://zhi-xlap.firebaseio.com",
+    "project_id": "zhi-xlap",
+    "storage_bucket": "zhi-xlap.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363545986493:android:58e6b8e062666cf6",
+        "android_client_info": {
+          "package_name": "com.zhi.app.xlap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "363545986493-uf79u1ds1seiidtj7segpbc5hkb9eosr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsX9JvAKXYtsvxvXsfeRguuFvQdTgrxvc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
