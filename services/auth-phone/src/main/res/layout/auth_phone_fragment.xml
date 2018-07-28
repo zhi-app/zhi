@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright [2018] [zhi]
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="host"
+            type="com.zhi.service.auth.PhoneAuthFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.zhi.service.auth.PhoneAuthViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        tools:ignore="MergeRootFrame">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/country_iso"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintEnd_toStartOf="@+id/phone_number_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="+86" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phone_number_layout"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/country_iso"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/country_iso"
+            app:layout_constraintTop_toTopOf="@+id/country_iso">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:hint="输入手机号"
+                android:id="@+id/phone_number"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@{viewModel.phoneNumber}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sms_code_layout"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/country_iso">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:hint="输入验证码"
+                android:id="@+id/sms_code"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@{viewModel.smsCode}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/Widget.AppCompat.Button"
+            android:gravity="center"
+            android:id="@+id/send"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:onClick="@{()->host.verifyPhoneNumber()}"
+            android:text="发送"
+            app:layout_constraintBottom_toTopOf="@+id/confirm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sms_code_layout" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/Widget.AppCompat.Button"
+            android:gravity="center"
+            android:id="@+id/confirm"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:onClick="@{()->host.confirmCode()}"
+            android:text="验证"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/send" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

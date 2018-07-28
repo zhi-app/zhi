@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright [2018] [zhi]
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <!--The splash propertyAnimatorCompat that you see has to be ready immediately, even before you can inflate a layout
+   file in your splash activity. So you will not use a layout file. Instead, specify your splash
+   screen’s background as the activity’s theme background. To do this, first create an XML drawable
+   in res/drawable. -->
+    <style name="AppTheme.SplashScreen" parent="AppTheme.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:colorBackground">@null</item>
+        <item name="splash_background">@android:color/white</item>
+        <item name="splash_logo_xhdpi_144">@null</item>
+        <item name="splash_logo_xhdpi_192">@null</item>
+        <item name="splash_tag_xhdpi_132x44">@null</item>
+        <item name="splash_tag_xhdpi_184x60">@null</item>
+    </style>
+
+</resources>

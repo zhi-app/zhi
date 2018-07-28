@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/apps/xlap" />
+            <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/commons/common" />
+            <option value="$PROJECT_DIR$/commons/firebase" />
+            <option value="$PROJECT_DIR$/commons/glide" />
+            <option value="$PROJECT_DIR$/commons/multidex" />
+            <option value="$PROJECT_DIR$/commons/net" />
+            <option value="$PROJECT_DIR$/modules/profile" />
+            <option value="$PROJECT_DIR$/modules/share" />
+            <option value="$PROJECT_DIR$/modules/share-common" />
+            <option value="$PROJECT_DIR$/modules/splash" />
+            <option value="$PROJECT_DIR$/services/auth" />
+            <option value="$PROJECT_DIR$/services/auth-anonymous" />
+            <option value="$PROJECT_DIR$/services/auth-common" />
+            <option value="$PROJECT_DIR$/services/auth-email" />
+            <option value="$PROJECT_DIR$/services/auth-facebook" />
+            <option value="$PROJECT_DIR$/services/auth-github" />
+            <option value="$PROJECT_DIR$/services/auth-google" />
+            <option value="$PROJECT_DIR$/services/auth-phone" />
+            <option value="$PROJECT_DIR$/services/auth-twitter" />
+            <option value="$PROJECT_DIR$/services/neo" />
+            <option value="$PROJECT_DIR$/services/neo-bugly" />
+            <option value="$PROJECT_DIR$/services/neo-common" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
