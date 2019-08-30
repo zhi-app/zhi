@@ -24,7 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.zhi.common.app.BaseFragment
-import com.zhi.common.app.HostResultCallbacks
+import com.zhi.common.app.startActivityForResult
 import com.zhi.common.util.BaseRuntimeException
 import com.zhi.common.util.Logs
 import dagger.Lazy
@@ -72,8 +72,7 @@ constructor(
             }
         }
         authResource.get().loading()
-        HostResultCallbacks.startActivityForResult(
-            host,
+        host.startActivityForResult(
             RC_SIGN_IN,
             intent = client.get().signInIntent
         ) { resultCode, data ->

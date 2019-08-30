@@ -39,15 +39,14 @@ import dagger.android.HasServiceInjector
 import dagger.multibindings.Multibinds
 import javax.inject.Inject
 import javax.inject.Qualifier
-import javax.inject.Singleton
 
 abstract class BaseApplication : Application(),
     HasActivityInjector, HasServiceInjector,
     HasBroadcastReceiverInjector, HasContentProviderInjector {
 
     @Inject
-    internal lateinit var activityInjector:
-            DispatchingAndroidInjector<@JvmSuppressWildcards(true) Activity>
+    @field:AppContext
+    internal lateinit var activityInjector: AndroidInjector<Activity>
     @Inject
     internal lateinit var serviceInjector:
             DispatchingAndroidInjector<@JvmSuppressWildcards(true) Service>
@@ -103,12 +102,11 @@ abstract class BaseApplication : Application(),
     @FormatMethod
     protected abstract fun applicationInjector(): AndroidInjector<out Application>
 
-    override fun activityInjector(): DispatchingAndroidInjector<Activity> = activityInjector
+    final override fun activityInjector() = activityInjector
 
-    override fun serviceInjector(): DispatchingAndroidInjector<Service> = serviceInjector
+    final override fun serviceInjector() = serviceInjector
 
-    override fun broadcastReceiverInjector(): DispatchingAndroidInjector<BroadcastReceiver> =
-        broadcastReceiverInjector
+    final override fun broadcastReceiverInjector() = broadcastReceiverInjector
 
     // injectIfNecessary is called here but not on the other *Injector() methods because it is the
     // only one that should be called (in AndroidInjection.inject(ContentProvider)) before Application.onCreate()
@@ -168,13 +166,15 @@ abstract class ApplicationModule private constructor() {
     internal abstract fun attachCallbacks(): Set<AppAttachCallback>
 
     @Multibinds
-    @Singleton
     internal abstract fun createCallbacks(): Set<AppCreateCallback>
 
     @Binds
     @AppContext
-    @Singleton
     abstract fun appContext(application: Application): Context
+
+    @Binds
+    @AppContext
+    abstract fun activityInjector(activityInjector: DispatchingAndroidInjector<Activity>): AndroidInjector<Activity>
 }
 
 /**

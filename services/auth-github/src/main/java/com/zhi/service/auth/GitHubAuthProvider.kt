@@ -19,7 +19,7 @@ package com.zhi.service.auth
 import android.app.Activity
 import android.net.Uri
 import com.zhi.common.app.BaseFragment
-import com.zhi.common.app.HostResultCallbacks.Companion.startActivityForResult
+import com.zhi.common.app.startActivityForResult
 import com.zhi.common.rx.Schedulers
 import com.zhi.common.util.BaseRuntimeException
 import com.zhi.common.util.Logs
@@ -53,7 +53,7 @@ constructor(
                     .build()
             )
 
-        startActivityForResult(host, RC_SIGN_IN, intent) { resultCode, data ->
+        host.startActivityForResult(RC_SIGN_IN, intent) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 authResource.get().success("Success")
                 val code = data?.getStringExtra(GitHubAuthActivity.EXTRA_URL)?.let { url ->

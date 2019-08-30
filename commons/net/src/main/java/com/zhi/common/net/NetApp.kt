@@ -16,15 +16,49 @@
 
 package com.zhi.common.net
 
-import okhttp3.OkHttpClient
+import dagger.Lazy
 
-class NetApp constructor(configs: NetConfigs) {
-    val httpClient: OkHttpClient = OkHttpClient.Builder().run {
-        if (configs.dns.isPresent) {
-            dns(configs.dns.get())
-        }
-        configs.interceptors.forEach { addInterceptor(it) }
-        configs.netInterceptors.forEach { addNetworkInterceptor(it) }
-        build()
-    }
+import dagger.Subcomponent
+import dagger.android.AndroidInjector
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import javax.inject.Inject
+import javax.inject.Qualifier
+import javax.inject.Scope
+
+class NetApp {
+    @Inject
+    @field:NetAppContext
+    lateinit var httpClient: Lazy<OkHttpClient>
+
+    @Inject
+    @field:NetAppContext
+    lateinit var retrofit: Lazy<Retrofit>
 }
+
+@Subcomponent(
+    modules = [
+        NetAppHttpClientModule::class,
+        NetAppRetrofitModule::class
+    ]
+)
+@NetScope
+interface NetAppComponent : AndroidInjector<NetApp> {
+    @Subcomponent.Builder
+    abstract class Builder : AndroidInjector.Builder<NetApp>()
+}
+
+@MustBeDocumented
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class NetScope
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class NetContext
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class NetAppContext

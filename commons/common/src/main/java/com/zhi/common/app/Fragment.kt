@@ -34,7 +34,7 @@ open class BaseFragment : Fragment() {
     lateinit var optionalInjector: Optional<AndroidInjector<Fragment>>
     @Inject
     @field:FragmentContext
-    lateinit var hostResultCallbacks: Optional<HostResultCallbacks<BaseFragment>>
+    lateinit var hostResultCallbacks: Optional<HostResultCallbacks>
 
     override fun onAttach(context: Context) {
         findInjector(this)?.inject(this)
@@ -70,7 +70,7 @@ open class BaseFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         hostResultCallbacks.takeIf { it.isPresent }?.get()
-            ?.onResult(this@BaseFragment, requestCode, resultCode, data)
+            ?.onResult(requestCode, resultCode, data)
     }
 }
 
@@ -82,7 +82,7 @@ abstract class FragmentModule private constructor() {
 
     @BindsOptionalOf
     @FragmentContext
-    abstract fun hostResultCallbacks(): HostResultCallbacks<BaseFragment>
+    abstract fun hostResultCallbacks(): HostResultCallbacks
 }
 
 @Module
@@ -91,4 +91,13 @@ abstract class FragmentFragmentInjectorModule private constructor() {
     @ActivityScope
     @ActivityContext
     abstract fun fragmentInjector(injector: DispatchingAndroidInjector<Fragment>): AndroidInjector<Fragment>
+}
+
+@Module
+abstract class FragmentHostCallbackModule private constructor() {
+
+    @Binds
+    @FragmentScope
+    @FragmentContext
+    abstract fun hostCallback(callback: HostResultCallbacks): HostResultCallbacks
 }

@@ -26,7 +26,7 @@ import com.facebook.internal.CallbackManagerImpl
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.zhi.common.app.BaseFragment
-import com.zhi.common.app.HostResultCallbacks.Companion.startForResult
+import com.zhi.common.app.startForResult
 import com.zhi.common.util.BaseRuntimeException
 import com.zhi.common.util.Logs
 import dagger.Lazy
@@ -60,7 +60,7 @@ constructor(
         }
 
         LoginManager.getInstance().logInWithReadPermissions(host, listOf("email", "public_profile"))
-        startForResult(host, RC_SIGN_IN) { resultCode, data ->
+        host.startForResult(RC_SIGN_IN) { resultCode, data ->
             callbackManager.onActivityResult(RC_SIGN_IN, resultCode, data)
         }
     }

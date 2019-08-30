@@ -22,13 +22,18 @@ import com.bumptech.glide.load.engine.cache.MemoryCache
 import com.bumptech.glide.load.engine.executor.GlideExecutor
 import com.bumptech.glide.request.RequestOptions
 import com.google.common.base.Optional
+import com.zhi.common.net.NetContext
 import dagger.BindsOptionalOf
 import dagger.Module
+import okhttp3.OkHttpClient
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Provider
 
 class GlideConfigs {
+    @Inject
+    @NetContext
+    lateinit var httpClientProvider: Provider<OkHttpClient>
     @Inject
     lateinit var bitmapPool: Optional<Provider<BitmapPool>>
     @Inject

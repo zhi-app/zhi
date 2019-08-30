@@ -20,7 +20,7 @@ import java.io.InputStreamReader
 object Config {
     // -------------- [START] PLUGINS --------------
     /**[home](https://github.com/gradle/gradle)*/
-    const val gradleAndroid = "com.android.tools.build:gradle:3.4.0-alpha09"
+    const val gradleAndroid = "com.android.tools.build:gradle:3.5.0-beta01"
     /**[home](https://github.com/JetBrains/kotlin)*/
     private const val kotlinVersion = "1.3.11"
     const val gradleKotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"

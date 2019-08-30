@@ -31,7 +31,6 @@ object LogsModule {
     @JvmStatic
     @Provides
     @IntoSet
-    @Singleton
     @MainProcess
     fun appCreateLogsCallback() = object : AppCreateCallback {
         override fun onCreate(application: Application) {

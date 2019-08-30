@@ -20,200 +20,95 @@ import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
 import android.util.SparseArray
-import dagger.Binds
-import dagger.Module
 import javax.inject.Inject
 
+typealias HostResultCallback = (resultCode: Int, data: Intent?) -> Unit
 
-@Module
-abstract class ActivityHostCallbackModule private constructor() {
-    @Binds
-    @ActivityScope
-    @ActivityContext
-    abstract fun hostCallback(callback: HostResultCallbacks<BaseActivity>): HostResultCallbacks<BaseActivity>
-}
+class HostResultCallbacks @Inject constructor() {
 
-@Module
-abstract class FragmentHostCallbackModule private constructor() {
-    @Binds
-    @FragmentScope
-    @FragmentContext
-    abstract fun hostCallback(callback: HostResultCallbacks<BaseFragment>): HostResultCallbacks<BaseFragment>
-}
+    private val callbacks = SparseArray<HostResultCallback>(4)
 
-interface HostResultCallback<in T> {
-    fun onResult(host: T, requestCode: Int, resultCode: Int, data: Intent?)
-}
-
-class HostResultCallbacks<T> @Inject constructor() : HostResultCallback<T> {
-
-    val resultCallbacks: SparseArray<HostResultCallback<T>> = SparseArray(4)
-
-    override fun onResult(host: T, requestCode: Int, resultCode: Int, data: Intent?) {
-        resultCallbacks[requestCode]?.onResult(host, requestCode, resultCode, data)
-    }
-
-    companion object {
-        fun startForResult(
-            host: BaseActivity,
-            requestCode: Int,
-            callback: (Int, Intent?) -> Unit
-        ) {
-            host.hostResultCallbacks.takeIf { it.isPresent }?.get()?.resultCallbacks?.run {
-                put(requestCode, object : HostResultCallback<BaseActivity> {
-                    override fun onResult(
-                        host: BaseActivity,
-                        requestCode: Int,
-                        resultCode: Int,
-                        data: Intent?
-                    ) {
-                        remove(requestCode)
-                        callback.invoke(resultCode, data)
-                    }
-                })
-            }
-        }
-
-        fun startForResult(
-            host: BaseFragment,
-            requestCode: Int,
-            callback: (Int, Intent?) -> Unit
-        ) {
-            host.hostResultCallbacks.takeIf { it.isPresent }?.get()?.resultCallbacks?.run {
-                put(requestCode, object : HostResultCallback<BaseFragment> {
-                    override fun onResult(
-                        host: BaseFragment,
-                        requestCode: Int,
-                        resultCode: Int,
-                        data: Intent?
-                    ) {
-                        remove(requestCode)
-                        callback.invoke(resultCode, data)
-                    }
-                })
-            }
-        }
-
-        fun startActivityForResult(
-            host: BaseActivity,
-            requestCode: Int,
-            intent: Intent? = null,
-            options: Bundle? = null,
-            callback: (Int, Intent?) -> Unit
-        ) {
-            host.hostResultCallbacks.takeIf { it.isPresent }?.get()?.resultCallbacks?.run {
-                put(requestCode, object : HostResultCallback<BaseActivity> {
-                    override fun onResult(
-                        host: BaseActivity,
-                        requestCode: Int,
-                        resultCode: Int,
-                        data: Intent?
-                    ) {
-                        remove(requestCode)
-                        callback.invoke(resultCode, data)
-                    }
-                })
-            }
-            intent?.run {
-                host.startActivityForResult(this, requestCode, options)
-            }
-        }
-
-        fun startActivityForResult(
-            host: BaseFragment,
-            requestCode: Int,
-            intent: Intent? = null,
-            options: Bundle? = null,
-            callback: (Int, Intent?) -> Unit
-        ) {
-            host.hostResultCallbacks.takeIf { it.isPresent }?.get()?.resultCallbacks?.run {
-                put(requestCode, object : HostResultCallback<BaseFragment> {
-                    override fun onResult(
-                        host: BaseFragment,
-                        requestCode: Int,
-                        resultCode: Int,
-                        data: Intent?
-                    ) {
-                        remove(requestCode)
-                        callback.invoke(resultCode, data)
-                    }
-                })
-            }
-            intent?.run {
-                host.startActivityForResult(this, requestCode, options)
-            }
-        }
-
-        fun startIntentSenderForResult(
-            host: BaseActivity,
-            requestCode: Int,
-            intent: IntentSender,
-            fillInIntent: Intent? = null,
-            flagsMask: Int = 0,
-            flagsValues: Int = 0,
-            extraFlags: Int = 0,
-            options: Bundle? = null,
-            callback: (Int, Intent?) -> Unit
-        ) {
-            host.hostResultCallbacks.takeIf { it.isPresent }?.get()?.resultCallbacks?.run {
-                put(requestCode, object : HostResultCallback<BaseActivity> {
-                    override fun onResult(
-                        host: BaseActivity,
-                        requestCode: Int,
-                        resultCode: Int,
-                        data: Intent?
-                    ) {
-                        remove(requestCode)
-                        callback.invoke(resultCode, data)
-                    }
-
-                })
-            }
-            host.startIntentSenderForResult(
-                intent,
-                requestCode,
-                fillInIntent,
-                flagsMask,
-                flagsValues,
-                extraFlags,
-                options
-            )
-        }
-
-        fun startIntentSenderForResult(
-            host: BaseFragment,
-            requestCode: Int,
-            intent: IntentSender,
-            fillInIntent: Intent? = null,
-            flagsMask: Int = 0,
-            flagsValues: Int = 0,
-            extraFlags: Int = 0,
-            options: Bundle? = null,
-            callback: (Int, Intent?) -> Unit
-        ) {
-            host.hostResultCallbacks.takeIf { it.isPresent }?.get()?.resultCallbacks?.run {
-                put(requestCode, object : HostResultCallback<BaseFragment> {
-                    override fun onResult(
-                        host: BaseFragment,
-                        requestCode: Int,
-                        resultCode: Int,
-                        data: Intent?
-                    ) {
-                        remove(requestCode)
-                        callback.invoke(resultCode, data)
-                    }
-
-                })
-            }
-            host.startIntentSenderForResult(
-                intent,
-                requestCode,
-                fillInIntent,
-                flagsMask,
-                flagsValues,
-                extraFlags,
-                options
-            )
+    fun onResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        callbacks[requestCode]?.also { callback ->
+            callbacks.remove(requestCode)
+            callback.invoke(resultCode, data)
         }
     }
+
+    fun with(requestCode: Int, callback: HostResultCallback) {
+        callbacks.put(requestCode, callback)
+    }
+}
+
+fun BaseActivity.startForResult(requestCode: Int, callback: HostResultCallback) {
+    hostResultCallbacks.takeIf { it.isPresent }?.get()?.with(requestCode, callback)
+}
+
+fun BaseFragment.startForResult(requestCode: Int, callback: HostResultCallback) {
+    hostResultCallbacks.takeIf { it.isPresent }?.get()?.with(requestCode, callback)
+}
+
+fun BaseActivity.startActivityForResult(
+    requestCode: Int,
+    intent: Intent,
+    options: Bundle? = null,
+    callback: HostResultCallback
+) {
+    hostResultCallbacks.takeIf { it.isPresent }?.get()?.with(requestCode, callback)
+    startActivityForResult(intent, requestCode, options)
+}
+
+fun BaseFragment.startActivityForResult(
+    requestCode: Int,
+    intent: Intent,
+    options: Bundle? = null,
+    callback: HostResultCallback
+) {
+    hostResultCallbacks.takeIf { it.isPresent }?.get()?.with(requestCode, callback)
+    startActivityForResult(intent, requestCode, options)
+}
+
+
+fun BaseActivity.startIntentSenderForResult(
+    requestCode: Int,
+    intent: IntentSender,
+    fillInIntent: Intent? = null,
+    flagsMask: Int = 0,
+    flagsValues: Int = 0,
+    extraFlags: Int = 0,
+    options: Bundle? = null,
+    callback: HostResultCallback
+) {
+    hostResultCallbacks.takeIf { it.isPresent }?.get()?.with(requestCode, callback)
+    startIntentSenderForResult(
+        intent,
+        requestCode,
+        fillInIntent,
+        flagsMask,
+        flagsValues,
+        extraFlags,
+        options
+    )
+}
+
+fun BaseFragment.startIntentSenderForResult(
+    requestCode: Int,
+    intent: IntentSender,
+    fillInIntent: Intent? = null,
+    flagsMask: Int = 0,
+    flagsValues: Int = 0,
+    extraFlags: Int = 0,
+    options: Bundle? = null,
+    callback: HostResultCallback
+) {
+    hostResultCallbacks.takeIf { it.isPresent }?.get()?.with(requestCode, callback)
+    startIntentSenderForResult(
+        intent,
+        requestCode,
+        fillInIntent,
+        flagsMask,
+        flagsValues,
+        extraFlags,
+        options
+    )
 }

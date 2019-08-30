@@ -27,7 +27,7 @@ import com.twitter.sdk.android.core.models.User
 import com.zhi.common.app.ActivityContext
 import com.zhi.common.app.BaseActivity
 import com.zhi.common.app.BaseFragment
-import com.zhi.common.app.HostResultCallbacks.Companion.startForResult
+import com.zhi.common.app.startForResult
 import com.zhi.common.util.Logs
 import dagger.Lazy
 
@@ -39,7 +39,7 @@ constructor(
     override fun signIn(host: BaseFragment) {
         super.signIn(host)
 
-        startForResult(host.activity as BaseActivity, RC_SIGN_IN) { resultCode, data ->
+        (host.activity as BaseActivity).startForResult(RC_SIGN_IN) { resultCode, data ->
             client.get().onActivityResult(RC_SIGN_IN, resultCode, data)
         }
 

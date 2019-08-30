@@ -36,7 +36,7 @@ open class BaseActivity : AppCompatActivity() {
     lateinit var optionalInjector: Optional<AndroidInjector<Fragment>>
     @Inject
     @field:ActivityContext
-    lateinit var hostResultCallbacks: Optional<HostResultCallbacks<BaseActivity>>
+    lateinit var hostResultCallbacks: Optional<HostResultCallbacks>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -45,8 +45,7 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        hostResultCallbacks.takeIf { it.isPresent }?.get()
-            ?.onResult(this@BaseActivity, requestCode, resultCode, data)
+        hostResultCallbacks.takeIf { it.isPresent }?.get()?.onResult(requestCode, resultCode, data)
     }
 }
 
@@ -64,7 +63,7 @@ abstract class ActivityModule private constructor() {
 
     @BindsOptionalOf
     @ActivityContext
-    abstract fun hostResultCallbacks(): HostResultCallbacks<BaseActivity>
+    abstract fun hostResultCallbacks(): HostResultCallbacks
 }
 
 @Module
@@ -73,4 +72,13 @@ abstract class ActivityFragmentInjectorModule private constructor() {
     @ActivityScope
     @ActivityContext
     abstract fun fragmentInjector(injector: DispatchingAndroidInjector<Fragment>): AndroidInjector<Fragment>
+}
+
+@Module
+abstract class ActivityHostCallbackModule private constructor() {
+
+    @Binds
+    @ActivityScope
+    @ActivityContext
+    abstract fun hostCallback(callback: HostResultCallbacks): HostResultCallbacks
 }

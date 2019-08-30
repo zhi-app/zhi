@@ -26,6 +26,7 @@ kapt {
 
 dependencies {
     api(project(":common"))
+    api(project(":common-net"))
     api(Config.glide)
     api(Config.glideOkHttp)
     kapt(Config.glideCompiler)

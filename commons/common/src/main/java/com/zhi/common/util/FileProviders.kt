@@ -37,7 +37,6 @@ object FileProvidersModule {
     @JvmStatic
     @Provides
     @IntoSet
-    @Singleton
     @MainProcess
     fun appCreateFileProvidersCallback() = object : AppCreateCallback {
         override fun onCreate(application: Application) {

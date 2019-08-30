@@ -31,7 +31,7 @@ import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCall
 import com.zhi.common.app.AppContext
 import com.zhi.common.app.BaseFragment
 import com.zhi.common.app.FragmentContext
-import com.zhi.common.app.HostResultCallbacks
+import com.zhi.common.app.startIntentSenderForResult
 import com.zhi.common.util.Logs
 import dagger.Lazy
 import java.util.concurrent.TimeUnit
@@ -54,8 +54,7 @@ constructor(
                 .setPhoneNumberIdentifierSupported(true)
                 .build()
         )
-        HostResultCallbacks.startIntentSenderForResult(
-            host,
+        host.startIntentSenderForResult(
             RC_HINT_PICKER,
             hintPickerIntent.intentSender
         ) { resultCode, data ->

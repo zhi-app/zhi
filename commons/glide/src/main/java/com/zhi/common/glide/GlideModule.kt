@@ -28,15 +28,14 @@ import com.zhi.common.app.MainProcess
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import io.reactivex.Observable
 import javax.inject.Provider
-import javax.inject.Singleton
 
 @Module(subcomponents = [GlideComponent::class])
 object GlideModule {
     @JvmStatic
     @Provides
     @IntoSet
-    @Singleton
     @MainProcess
     fun appCreateGlideCallback(glideComponentBuilderProvider: Provider<GlideComponent.Builder>): AppCreateCallback {
         return object : AppCreateCallback {
@@ -53,16 +52,14 @@ object ActivityGlideRequestsModule {
     @Provides
     @ActivityScope
     @ActivityContext
-    fun glideRequests(activity: BaseActivity): GlideRequests =
-        Glide.with(activity)
+    fun glideRequests(activity: BaseActivity): GlideRequests = Glide.with(activity)
 }
 
 @Module
 object FragmentGlideRequestsModule {
     @JvmStatic
     @Provides
-    @FragmentContext
     @FragmentScope
-    fun glideRequests(fragment: BaseFragment): GlideRequests =
-        Glide.with(fragment)
+    @FragmentContext
+    fun glideRequests(fragment: BaseFragment): GlideRequests = Glide.with(fragment)
 }

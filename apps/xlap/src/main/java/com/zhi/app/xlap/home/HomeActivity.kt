@@ -23,13 +23,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zhi.app.xlap.R
 import com.zhi.common.app.ActivityContext
 import com.zhi.common.app.BaseActivity
+import com.zhi.common.net.NetContext
 import com.zhi.common.widget.SimpleItem
+import dagger.Lazy
+import io.reactivex.Observable
+import okhttp3.OkHttpClient
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity() {
     @Inject
     @field:ActivityContext
     lateinit var viewModelProvider: ViewModelProvider
+
+    @Inject
+    @field:NetContext
+    lateinit var httpClient: Lazy<OkHttpClient>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +49,8 @@ class HomeActivity : BaseActivity() {
             SimpleItem("bar", R.layout.home_view_bar)
         )
         findViewById<RecyclerView>(R.id.list).adapter = HomeAdapter(items)
+
+
     }
 }
 

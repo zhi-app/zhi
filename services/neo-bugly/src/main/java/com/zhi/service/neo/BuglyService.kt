@@ -25,14 +25,12 @@ import dagger.Provides
 import dagger.multibindings.IntoSet
 import java.io.BufferedReader
 import java.io.FileReader
-import javax.inject.Singleton
 
 @Module
 object BuglyModule {
     @JvmStatic
     @Provides
     @IntoSet
-    @Singleton
     @MainProcess
     fun appCreateBuglyCallback() = object : AppCreateCallback {
         override fun onCreate(application: Application) {

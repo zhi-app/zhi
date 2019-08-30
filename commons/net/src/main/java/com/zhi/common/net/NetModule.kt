@@ -20,40 +20,28 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Provider
 import javax.inject.Singleton
 
-@Module(subcomponents = [NetComponent::class])
+@Module(subcomponents = [NetAppComponent::class])
 object NetModule {
     @JvmStatic
     @Provides
     @Singleton
     @NetContext
-    fun netApp(netComponentBuilderProvider: Provider<NetComponent.Builder>): NetApp {
-        val configs = NetConfigs()
-        netComponentBuilderProvider.get().create(configs).inject(configs)
-        return NetApp(configs)
+    fun netApp(netAppComponentBuilderProvider: Provider<NetAppComponent.Builder>) = NetApp().apply {
+        netAppComponentBuilderProvider.get().create(this).inject(this)
     }
 
     @JvmStatic
     @Provides
     @Singleton
     @NetContext
-    fun httpClient(@NetContext netApp: NetApp): OkHttpClient {
-        return netApp.httpClient
-    }
+    fun httpClient(@NetContext netApp: NetApp): OkHttpClient = netApp.httpClient.get()
 
     @JvmStatic
     @Provides
     @Singleton
     @NetContext
-    fun retrofit(@NetContext httpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder().client(httpClient)
-            .baseUrl("http://localhost:8888/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-            .build()
-    }
+    fun retrofit(@NetContext netApp: NetApp): Retrofit = netApp.retrofit.get()
 }

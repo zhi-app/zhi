@@ -18,7 +18,7 @@ package com.zhi.service.auth
 
 import android.content.Intent
 import com.zhi.common.app.BaseFragment
-import com.zhi.common.app.HostResultCallbacks.Companion.startActivityForResult
+import com.zhi.common.app.startActivityForResult
 import javax.inject.Inject
 
 class PhoneAuthProvider @Inject constructor() : AuthProvider {
@@ -26,8 +26,7 @@ class PhoneAuthProvider @Inject constructor() : AuthProvider {
     override fun signIn(host: BaseFragment) {
         super.signIn(host)
 
-        startActivityForResult(
-            host,
+        host.startActivityForResult(
             RC_SIGN_IN,
             Intent(host.context, PhoneAuthActivity::class.java)
         ) { resultCode, data ->
