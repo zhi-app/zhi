@@ -1,0 +1,11 @@
+android.defaultConfig {
+    versionCode 1
+    versionName "1.0"
+}
+
+dependencies {
+    api project(":common")
+    api Config.multidex
+    kapt Config.daggerCompiler
+    kapt Config.daggerAndroidProcessor
+}

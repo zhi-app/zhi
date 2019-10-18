@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="common_max_enabled_log_level" format="integer" type="integer" />
+    <item name="common_log_prefix" format="string" type="string" />
+</resources>

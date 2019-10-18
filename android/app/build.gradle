@@ -1,0 +1,26 @@
+apply plugin: "kotlin-android"
+apply from: "/usr/local/flutter-sdk/packages/flutter_tools/gradle/flutter.gradle"
+
+android.defaultConfig {
+    applicationId "com.zhi.flab"
+    versionCode Config.versionCode
+    versionName Config.versionName
+    resValue("integer", "common_max_enabled_log_level", "10")
+    resValue("string", "common_log_prefix", "flab")
+}
+
+flutter {
+    source = "../.."
+}
+
+dependencies {
+    implementation project(":common")
+    implementation Config.kotlinStdLib
+
+    testImplementation Config.junit
+    androidTestImplementation Config.testRunner
+    androidTestImplementation Config.testExpresso
+
+    kapt Config.daggerCompiler
+    kapt Config.daggerAndroidProcessor
+}

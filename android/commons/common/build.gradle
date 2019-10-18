@@ -1,0 +1,19 @@
+android.defaultConfig {
+    versionCode 1
+    versionName "1.0"
+}
+
+dependencies {
+    api Config.guava
+    api Config.kotlinStdLib
+
+    api Config.ktxcore
+    api Config.annotation
+    api Config.appcompat
+
+    api Config.dagger
+    api Config.daggerAndroid
+    api Config.daggerAndroidSupport
+    kapt Config.daggerCompiler
+    kapt Config.daggerAndroidProcessor
+}
